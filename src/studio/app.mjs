@@ -48,7 +48,7 @@ function connected(){return !!selected?.gatt?.connected;}
 function updateControls(){const on=connected();$('connect').disabled=busy||on;$('disconnect').disabled=busy||!on;$('inspect').disabled=busy||!on||!tx;$('find').disabled=busy||!on||!tx;$('status').textContent=on?'متصل بالبلوتوث':busy?'جارٍ الاتصال…':'غير متصل';$('status').classList.toggle('online',on);}
 async function write(bytes){const run=async()=>{if(!connected()||!tx)throw Error('الساعة غير متصلة.');log(`TX ${hex(bytes)}`);if(tx.properties.write)await tx.writeValueWithResponse(bytes);else await tx.writeValueWithoutResponse(bytes);};const p=writeQueue.then(run);writeQueue=p.catch(()=>{});return p;}
 function report(){return {app:'FitPro Studio',version:'0.1.0',createdAt:new Date().toISOString(),connected:connected(),deviceName:selected?.name||null,services:gattServices,identity,battery,dial:info,events,uploadSupported:false,reason:'Exact LJ737(D)/LT10 dial template and image encoding still require verification.'};}
-async function saveLocalReport(){try{const response=await fetch('/report',{method:'POST',headers:{'Content-Type':'application/json','X-Studio-Token':document.querySelector('meta[name=studio-token]')?.content||''},body:JSON.stringify(report(),null,2)});if(!response.ok)throw Error('save failed');}catch{/* The explicit download button remains available. */}}
+async function saveLocalReport(){/* web build: use the download button */}
 function packetReceived(packet){if(packet.ack)return;log(`RX ${hex(packet.raw)}`);if(packet.group===0x20&&packet.command===2){try{info=dialInfo(packet.payload);$('width').value=info.width;$('height').value=info.height;$('sizeNote').textContent='المقاس مقروء من الساعة.';$('screenInfo').textContent=`${info.width} × ${info.height}`;$('formatInfo').textContent=`رمز ${info.algorithm}${info.themeVersion!==undefined?' / v'+info.themeVersion:''}`;$('deviceDetail').textContent=info.model||info.hardware||'تمت قراءة الواجهة';$('transferReason').textContent='وصلت معلومات الشاشة. نحتاج مطابقة قالب هذا الموديل قبل تفعيل رفع التصميم مباشرة. احفظ تقرير الاتصال للمتابعة.';message('وصل رد الساعة، وتم ضبط مقاس التصميم.');render();}catch(e){log(`DIAL parse: ${e.message}`);message('وصل رد غير معروف. احفظ التقرير لتحديد صيغة الساعة.',true);}}
   if(packet.group===0x20||packet.group===0x1a)write(acknowledge(packet)).catch(e=>log(e.message));saveLocalReport();
 }
@@ -77,5 +77,5 @@ $('find').onclick=async()=>{busy=true;updateControls();try{await write(frame(0x1
 $('report').onclick=()=>{download(new Blob([JSON.stringify(report(),null,2)],{type:'application/json'}),'fitpro-connection-report.json');toast('تم حفظ تقرير الاتصال.');};
 window.addEventListener('error',e=>{log(`UI error: ${e.message}`);});
 window.addEventListener('unhandledrejection',e=>{log(`Error: ${e.reason?.message||e.reason}`);});
-setInterval(()=>{render();fetch('/pulse').catch(()=>{});},15000);
+setInterval(()=>{render();},15000);
 log('Studio ready. No watch writes until connection / explicit commands.');render();updateControls();
