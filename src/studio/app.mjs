@@ -25,10 +25,10 @@ function draw(canvas,clock=false) {
   }else if(theme==='wave'){
     c.strokeStyle=a;for(let i=0;i<26;i++){c.globalAlpha=.15+(i%7)*.08;c.lineWidth=1;c.beginPath();c.moveTo(-15,105+i*7);c.bezierCurveTo(80,210+i*7,140,50+i*8,260,140+i*8);c.stroke();}c.globalAlpha=1;
   }else{
-    c.strokeStyle=a+'45';c.lineWidth=.6;c.strokeRect(18,18,204,248);c.fillStyle=a;c.fillRect(24,218,26,3);c.font='9px Segoe UI';c.textAlign='left';c.fillText('LESS, BUT BETTER.',24,240);
+    c.strokeStyle=a+'45';c.lineWidth=.6;c.strokeRect(18,18,204,248);c.fillStyle=a;c.fillRect(24,218,26,3);c.font='9px Cairo, Segoe UI';c.textAlign='left';c.fillText('LESS, BUT BETTER.',24,240);
   }
-  const caption=$('caption').value.trim();if(caption){c.fillStyle=a;c.textAlign='center';c.font='600 14px Segoe UI';c.direction='rtl';c.fillText(caption,120,$('captionPosition').value==='top'?29:261,196);}
-  if(clock){const d=new Date();c.direction='ltr';c.textAlign='center';c.fillStyle='#f3f5ef';c.shadowColor='#0008';c.shadowBlur=10;c.font='600 49px Segoe UI';c.fillText(d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),120,102);c.font='11px Segoe UI';c.fillStyle=a;c.fillText(d.toLocaleDateString('en-US',{weekday:'short',day:'2-digit',month:'short'}).toUpperCase(),120,123);c.shadowBlur=0;}
+  const caption=$('caption').value.trim();if(caption){c.fillStyle=a;c.textAlign='center';c.font='600 14px Cairo, Segoe UI';c.direction='rtl';c.fillText(caption,120,$('captionPosition').value==='top'?29:261,196);}
+  if(clock){const d=new Date();c.direction='ltr';c.textAlign='center';c.fillStyle='#f3f5ef';c.shadowColor='#0008';c.shadowBlur=10;c.font='600 49px Cairo, Segoe UI';c.fillText(d.toLocaleTimeString('en-GB',{hour:'2-digit',minute:'2-digit'}),120,102);c.font='11px Cairo, Segoe UI';c.fillStyle=a;c.fillText(d.toLocaleDateString('en-US',{weekday:'short',day:'2-digit',month:'short'}).toUpperCase(),120,123);c.shadowBlur=0;}
   c.restore();
 }
 function render(){draw($('preview'),$('showClock').checked);$('resolution').textContent=dimensions().join(' × ');}
