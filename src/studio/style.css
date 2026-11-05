@@ -23,3 +23,6 @@ input:not([type=checkbox]):not([type=range]):not([type=color]):not([type=file]),
 .file-button{border-radius:14px;border-color:#3a3a3c;transition:border-color .2s}.file-button:hover{border-color:var(--blue)}
 footer{border-color:#1d1d1f}
 @media (prefers-reduced-motion:reduce){.watch{animation:none}}
+.studio-root header.sticky{height:auto;padding:0;display:block;border-bottom:1px solid #ffffff14;background:#000000b8}
+.studio-root header.sticky nav{display:flex;justify-content:space-between}
+.studio-root header:not(.sticky) .brand{display:none}
