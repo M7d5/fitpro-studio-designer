@@ -28,3 +28,4 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+- The studio app is ported verbatim from the uploaded vanilla files in src/studio (markup.html, app.mjs, protocol.mjs, style.css), loaded client-side from src/routes/index.tsx; keeps behaviour identical to the original.
